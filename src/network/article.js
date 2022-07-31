@@ -53,3 +53,15 @@ export const getArticleByTag = (id) => {
         }
     })
 }
+
+//根据标签过去文章列表
+export const searchArticle = (searchText,page=1,pageSize=5) => {
+    return request({
+        url:'/article/search',
+        params:{
+            searchText,
+            page,
+            pageSize
+        }
+    })
+}

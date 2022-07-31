@@ -3,13 +3,8 @@
     <Header></Header>
     <Main>
       <div>
-        <TagCard @tagClick="tag_click"></TagCard>
-        <ArticleList
-          v-if="articleList"
-          :total="total"
-          :dataList="articleList"
-        ></ArticleList>
-        <div class="no_data" v-if="noData">暂无数据</div>
+        <div class="no_data" v-if="!searchData">暂无数据</div>
+        <ArticleList v-if="searchData" :dataList="searchData" :total="total"></ArticleList>
       </div>
     </Main>
     <Footer></Footer>
@@ -20,37 +15,30 @@
 import { ref, watch } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/layout/Main.vue";
-import Footer from "@/components/Footer.vue";
-import TagCard from "@/components/TagCard.vue";
 import ArticleList from "@/components/ArticleList.vue";
-import { getArticleByTag } from "@/network/article";
 import { useRoute, onBeforeRouteUpdate } from "vue-router";
+import { searchArticle, getArticleCount } from "@/network/article";
 
 const route = useRoute();
+const searchData = ref();
 const total = ref(0);
-const articleList = ref("");
-const noData = ref(false);
-
-const tag_click = async (id) => {
-  const res = await getArticleByTag(id);
-  articleList.value = res.data;
-  //判断是否有数据
-  if (articleList.value == 0) {
-    noData.value = true;
-  } else {
-    noData.value = false;
-  }
+const text = ref(route.query.text);
+const search_article = async (text) => {
+  const res = await searchArticle(text);
+  const res1 = await getArticleCount(text);
+  searchData.value = res.data;
+  total.value = res1.data;
 };
+search_article(text.value);
 
 watch(
-  ()=>route.query.id,
+  () => route.query.text,
   (val) => {
     window.scrollTo(0, 0);
     if (val) {
-      tag_click(val);
+      search_article(val);
     }
-  },
-  { immediate: true }
+  }
 );
 </script>
 

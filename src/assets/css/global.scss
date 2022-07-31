@@ -8,8 +8,6 @@
     src: url(@/assets/font/v8hrz-ivugt.ttf);
 }
 body{
-    width: 100vw;
-    height: 100vh;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -19,7 +17,6 @@ body{
 
 ::-webkit-scrollbar {
     width: 10px;
-    height: 0rem;
 }
 
 ::-webkit-scrollbar-button {

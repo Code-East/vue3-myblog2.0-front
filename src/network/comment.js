@@ -5,3 +5,22 @@ export const getCommentCount = (text = '') => {
         url: '/comment/getcommentcount?text=' + text
     })
 }
+
+//根据文章id 获取评论
+export const getCommentList = (id) => {
+    return request({
+        url: '/comment/getcommentlist',
+        params:{
+            id
+        }
+    })
+}
+
+//增加评论
+export const addComment = (data) => {
+    return request({
+        url: '/comment/addcomment',
+        method:'post',
+        data:data
+    })
+}

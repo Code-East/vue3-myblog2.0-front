@@ -10,6 +10,7 @@ const router = createRouter({
         { path: '/detail/:id', name: 'detail', component: () => import('@/view/detail.vue') },
         { path: '/category/:id', name: 'category', component: () => import('@/view/category.vue') },
         { path: '/tag', name: 'tag', component: () => import('@/view/tag.vue') },
+        { path: '/search', name: 'search', component: () => import('@/view/search.vue') },
     ]
 })
 

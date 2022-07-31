@@ -15,10 +15,11 @@ import { defineProps, defineEmits, ref, watch } from "vue";
 const props = defineProps({
   total: String,
   page: Number,
+  pageSize:Number
 });
 const emit = defineEmits(["changePage"]);
 const currentPage = ref(props.page);
-const pageSize = ref(5);
+const pageSize = ref(props.pageSize);
 //监听当前页变化绚烂不同页面的数据
 watch(()=>props.page, (newval, oldval) => {
   window.scrollTo(0, 0);

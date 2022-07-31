@@ -5,7 +5,7 @@
       :key="item.article_id"
       :articleData="item"
     ></ArticleCard>
-    <pagination :total="total" :page="nowPage" @changePage="pageChange"></pagination>
+    <pagination :total="total" :page="nowPage" :pageSize="5" @changePage="pageChange"></pagination>
   </div>
 </template>
 
@@ -23,12 +23,9 @@ const props = defineProps({
   dataList: Array,
 });
 const emit = defineEmits(["pagechang"]);
-console.log('nowArticlePage',store.nowArticlePage);
 //分页
 const pageChange = (currentPage, pageSize) => {
-  console.log(currentPage,store.nowArticlePage);
   store.nowArticlePage = currentPage;
-  console.log(currentPage,store.nowArticlePage);
   emit('pagechang',currentPage, pageSize);
 };
 </script>

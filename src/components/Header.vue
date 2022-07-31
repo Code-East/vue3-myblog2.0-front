@@ -3,6 +3,8 @@ import { ref, watch, onUnmounted, onMounted } from "vue";
 import Drawer from "./Drawer.vue";
 import { header_nav_list } from "@/utils/variable.js";
 import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
+
 const router = useRouter();
 
 const drawer = ref(false);
@@ -17,7 +19,8 @@ const callback = () => {
   scrollTop.value = window.scrollY;
 };
 //绑定滚动事件
-window.addEventListener("scroll",callback);
+window.addEventListener("scroll", callback);
+//监听滚动的位置 修改header的样式
 watch(
   scrollTop,
   (newval, oldval) => {
@@ -36,33 +39,69 @@ watch(
 );
 //点击跳转
 const itemClick = (item) => {
-  router.push(item.path);
+  //判断是否是search
+  if (item.path == "/search") {
+    dialogVisible.value = true;
+  } else {
+    router.push(item.path);
+  }
 };
 //当组件挂载是让滚动条在顶部
-onMounted(()=>{
-  window.scrollTo(0,0);
+onMounted(() => {
+  window.scrollTo(0, 0);
 });
 //当组件卸载是让滚动条在顶部 解绑事件
 onUnmounted(() => {
-  window.scrollTo(0,0);
-  window.removeEventListener("scroll",callback);
+  window.scrollTo(0, 0);
+  window.removeEventListener("scroll", callback);
 });
+
+//dialog的操作
+const dialogVisible = ref(false);
+//关闭弹窗
+const handleClose = () => {
+  dialogVisible.value = false;
+};
+//搜索
+let msg = "";
+const searchText = ref("");
+const toSearch = () => {
+  if (searchText.value == "") {
+    if (msg) {
+      msg.close();
+    }
+    msg = ElMessage({
+      type: "warning",
+      message: "你都没输入内容,搜啥呢！！！",
+    });
+  } else {
+    dialogVisible.value = false;
+    router.push({
+      path: "/search",
+      query: {
+        text: searchText.value,
+      },
+    });
+  }
+};
 </script>
 
 <template>
   <header class="by_header">
     <div class="header_nav" :class="{ hind: ishind, notzore: iszore }">
-      <a href="javascript:;" @click="itemClick({path:'/index'})">East</a>
+      <a href="javascript:;" @click="itemClick({ path: '/index' })">East</a>
+      <!-- 电脑屏显示的menu -->
       <div class="header_menu">
         <ul>
           <li v-for="(item, i) in header_nav_list" :key="item.path">
-            <a href="javascript:;" @click="itemClick(item)"
-              ><el-icon> <component :is="item.icon"></component> </el-icon>
+            <a href="javascript:;" @click="itemClick(item)">
+              <el-icon> <component :is="item.icon"></component> </el-icon>
               <span>{{ item.name }}</span>
             </a>
           </li>
         </ul>
       </div>
+      <!-- 小屏显示的menu -->
       <div class="phone_menu">
         <span
           ><el-icon><Search /></el-icon
@@ -74,6 +113,22 @@ onUnmounted(() => {
     </div>
   </header>
   <Drawer v-model="drawer"></Drawer>
+  <el-dialog
+    v-model="dialogVisible"
+    title="文章搜索"
+    width="40%"
+    :close="handleClose"
+  >
+    <input
+      type="text"
+      v-model="searchText"
+      placeholder="请输入关键字进行搜索..."
+      class="dialog_inp"
+      @keydown.enter="toSearch"
+      autofocus="true"
+    />
+    <el-divider border-style="dashed" />
+  </el-dialog>
 </template>
 
 <style lang="scss" scoped>
@@ -156,6 +211,15 @@ header {
 }
 .notzore {
   background: rgb(0 0 0 / 30%);
+}
+.dialog_inp {
+  width: 100%;
+  padding: 0.2rem 0.3rem;
+  border: 2px solid #49b1f5;
+  border-radius: 2rem;
+  color: #4c4948;
+  outline: none;
+  font-family: myfont;
 }
 
 @media screen and (max-width: 750px) {

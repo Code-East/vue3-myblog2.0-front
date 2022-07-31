@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref,watch } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/layout/Main.vue";
 import Footer from "@/components/Footer.vue";
@@ -31,11 +31,15 @@ const get_article_by_category = async (id)=>{
 }
 get_article_by_category(id);
 
-onBeforeRouteUpdate(()=>{
-    window.scrollTo(0,0);
-    const id = route.params.id;
-    get_article_by_category(id);
-})
+watch(
+  ()=>route.params.id,
+  (val) => {
+    window.scrollTo(0, 0);
+    if (val) {
+      get_article_by_category(val);
+    }
+  },
+);
 </script>
 
 

@@ -6,23 +6,17 @@
       :key="item.tag_id"
       :style="{ backgroundColor: item.bgc }"
       @click="clickTag(item.tag_id)"
-      >{{ item.tag_name }}</a>
+      >{{ item.tag_name }}</a
+    >
   </div>
 </template>
 
 <script setup>
 import { getAllTags } from "@/network/tag";
-import { ref,defineEmits } from "vue";
-const emit = defineEmits(['tagClick'])
-const background_color = [
-  "rgb(130, 224, 170)",
-  "rgb(232, 248, 245)",
-  "rgb(248, 196, 113)",
-  "rgb(133, 193, 233)",
-  "rgb(215, 189, 226)",
-  "rgb(163, 228, 215)",
-  "rgb(254, 249, 231)"
-];
+import { ref, defineEmits } from "vue";
+import { background_color } from "@/utils/variable.js";
+const emit = defineEmits(["tagClick"]);
+
 const tagList = ref([]);
 const get_all_tags = async () => {
   const res = await getAllTags();
@@ -35,8 +29,8 @@ const get_all_tags = async () => {
 get_all_tags();
 
 const clickTag = (id) => {
-    emit('tagClick',id);
-}
+  emit("tagClick", id);
+};
 </script>
 
 
