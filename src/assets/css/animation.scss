@@ -16,3 +16,11 @@
         opacity: 1;
     }
 }
+@keyframes like {
+    from{
+        transform: scale(0);
+    }
+    to{
+        transform: scale(1);
+    }
+}

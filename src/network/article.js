@@ -38,7 +38,7 @@ export const getNewArticle = () => {
 export const getArticleByCategory = (id) => {
     return request({
         url: '/article/getarticlebycategoty',
-        params:{
+        params: {
             id
         }
     })
@@ -47,21 +47,32 @@ export const getArticleByCategory = (id) => {
 //根据标签过去文章列表
 export const getArticleByTag = (id) => {
     return request({
-        url:'/article/getarticlebytag',
-        params:{
+        url: '/article/getarticlebytag',
+        params: {
             id
         }
     })
 }
 
 //根据标签过去文章列表
-export const searchArticle = (searchText,page=1,pageSize=5) => {
+export const searchArticle = (searchText, page = 1, pageSize = 5) => {
     return request({
-        url:'/article/search',
-        params:{
+        url: '/article/search',
+        params: {
             searchText,
             page,
             pageSize
+        }
+    })
+}
+
+//喜欢文章
+export const likeArticle = (id,type) => { 
+    return request({
+        url:'/article/likearticle',
+        params:{
+            id,
+            type
         }
     })
 }
