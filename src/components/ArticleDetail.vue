@@ -2,11 +2,13 @@
   <div class="article_detail">
     <md-editor v-model="content" previewOnly></md-editor>
     <div class="star">
-      <div class="tags" v-for="item in tags" :key="item.tag_name">
-        <span
-          ><el-icon><PriceTag /></el-icon
-        ></span>
-        <div>{{ item.tag_name }}</div>
+      <div class="tags_box">
+        <div class="tags" v-for="item in tags" :key="item.tag_name">
+          <span
+            ><el-icon><PriceTag /></el-icon
+          ></span>
+          <div>{{ item.tag_name }}</div>
+        </div>
       </div>
       <div class="like">
         <span @click="likeClick" v-show="!like"
@@ -67,7 +69,7 @@ watch(
 
     //进入前查看是否喜欢
     let likeList = JSON.parse(localStorage.getItem("like_list"));
-    
+
     if (likeList) {
       if (likeList.includes(article_id.value)) {
         like.value = true;
@@ -77,7 +79,6 @@ watch(
     } else {
       localStorage.setItem("like_list", JSON.stringify([]));
     }
-
   },
   {
     deep: true,
@@ -153,38 +154,42 @@ const likeClick = async () => {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  .tags {
+  .tags_box {
     display: flex;
-    align-content: center;
-    font-size: 1.2em;
-    margin: 0 8px 0 0;
-    padding: 0 12px 0 40px;
-    border: 1px solid #f0f0f0;
-    border-radius: 20px;
-    color: #a0a0a0;
-    font-size: 0.85em;
-    background: #f0f0f0;
-    position: relative;
-    &:hover {
-      cursor: pointer;
-      color: #49b1f5;
-    }
-    span {
-      position: absolute;
-      left: 0;
-      background: #fff;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      text-align: center;
-      color: #49b1f5;
-      line-height: 33px;
-    }
-    div {
-      font-size: 1.6em;
-      line-height: 30px;
+    .tags {
+      display: flex;
+      align-content: center;
+      font-size: 1.2em;
+      margin: 0 8px 0 0;
+      padding: 0 12px 0 40px;
+      border: 1px solid #f0f0f0;
+      border-radius: 20px;
+      color: #a0a0a0;
+      font-size: 0.85em;
+      background: #f0f0f0;
+      position: relative;
+      &:hover {
+        cursor: pointer;
+        color: #49b1f5;
+      }
+      span {
+        position: absolute;
+        left: 0;
+        background: #fff;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        color: #49b1f5;
+        line-height: 33px;
+      }
+      div {
+        font-size: 1.6em;
+        line-height: 30px;
+      }
     }
   }
+
   .like {
     span:nth-child(1) {
       font-size: 2em;
